@@ -1,26 +1,3 @@
-<style>
-aside { float: right; }
-textarea { display: block; white-space: pre; }
-.borderless { border: none; }
-</style>
-
-<aside>
-<button id="demo" onclick="demoState()">Demo</button>
-<textarea id="textarea" rows="30" cols="40" onkeyup="loadState()"></textarea>
-<textarea class="borderless" rows="20" cols="40" readonly>
-* Specify desired grid characteristics and input data on the JSON snippet
-* Click on the desired spot in the grid to modify that frame
-* Drag-and-drop in the sprite canvas to select frame bounding box
-* Use Shift+Arrow keys to fine-tune positioning of bounding box
-* Use Arrow keys to fine-tune positioning of centroid
-* Use Escape key to delete the current frame. An empty frame and a deleted frame are treated differently by the animation preview!
-* Preview pane displays aligned animation on selected row, with helper inner collision box
-* Save provides a stateful JSON string. Load tries to load a string placed in the box. Demo showcases sample.
-</textarea>
-</aside>
-
-
-<script>
 /*
 ACTIONS
 */
@@ -189,51 +166,6 @@ class Canvas {
 STATE MANAGEMENT
 */
 
-function demoState() {
-    state = {
-      "nrows": 5,
-      "ncols": 4,
-      "cellw": 40,
-      "cellh": 40,
-      "bboxw": 13,
-      "bboxh": 21,
-      "imgSrc": "http://sprites-inc.co.uk/files/Classic/Megaman/MM8/8bitmegaman.png",
-      "currentFrame": "0,1",
-      "frames": {
-        "0,0":{"X":157,"Y":7,"W":26,"H":31,"x":14,"y":17},
-        "0,1":{"X":13,"Y":46,"W":33,"H":25,"x":14,"y":14},
-        "0,2":{"X":263,"Y":3,"W":34,"H":33,"x":15,"y":14},
-        "0,3":{"X":143,"Y":39,"W":35,"H":35,"x":16,"y":14},
-        "1,0":{"X":184,"Y":9,"W":31,"H":29,"x":15,"y":15},
-        "1,1":{"X":216,"Y":9,"W":20,"H":27,"x":10,"y":15},
-        "1,2":{"X":236,"Y":9,"W":27,"H":28,"x":15,"y":15},
-        "2,0":{"X":48,"Y":45,"W":32,"H":28,"x":13,"y":15},
-        "2,1":{"X":80,"Y":43,"W":32,"H":30,"x":12,"y":17},
-        "2,2":{"X":112,"Y":44,"W":31,"H":28,"x":13,"y":16},
-        "3,0":{"X":4,"Y":79,"W":18,"H":34,"x":10,"y":16},
-        "3,1":{"X":29,"Y":81,"W":21,"H":30,"x":11,"y":14},
-        "3,2":{"X":55,"Y":78,"W":30,"H":33,"x":13,"y":17},
-        "4,0":{"X":246,"Y":39,"W":30,"H":33,"x":15,"y":16},
-        "4,3":{"X":112,"Y":84,"W":34,"H":30,"x":17,"y":16}
-      },
-      "currentAnimation": "stand+shoot",
-      "animations": {
-        "stand": ["0,0"],
-        "stand+shoot": ["0,1"],
-        "jump": ["0,2"],
-        "jump+shoot": ["0,3"],
-        "run": ["1,0","1,1","1,2","1,1"],
-        "run+shoot": ["2,0","2,1","2,2","2,1"],
-        "climb": ["3,0","3,1"],
-        "climb+shoot": ["3,2"],
-        "hurt": ["4,0"],
-        "slide": ["4,3"]
-      }
-    }
-    saveState();
-    loadState();
-}
-
 function saveState() {
     removeMiddleWhitespace = (match, ...ps) => ps[0]+ps[1].replace(/\s/g,'')+ps[2];
     textarea.value = JSON.stringify(state, null, 2) // pretty-print
@@ -270,4 +202,3 @@ window.onkeypress = onkey;
 window.setInterval(renderPreview, 1000/2);
 if (location.hash) { textarea.value = atob(location.hash.slice(1)); }
 loadState();
-</script>

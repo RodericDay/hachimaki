@@ -1,12 +1,9 @@
 {
-  "nrows": 5,
-  "ncols": 4,
-  "cellw": 40,
-  "cellh": 40,
-  "bboxw": 13,
-  "bboxh": 21,
+  "w": 12,
+  "h": 20,
+  "speed": 1,
+  "jumpStrength": 5,
   "imgSrc": "http://sprites-inc.co.uk/files/Classic/Megaman/MM8/8bitmegaman.png",
-  "currentFrame": "0,1",
   "frames": {
     "0,0":{"X":157,"Y":7,"W":26,"H":31,"x":14,"y":17},
     "0,1":{"X":13,"Y":46,"W":33,"H":25,"x":14,"y":14},
@@ -24,7 +21,6 @@
     "4,0":{"X":246,"Y":39,"W":30,"H":33,"x":15,"y":16},
     "4,3":{"X":112,"Y":84,"W":34,"H":30,"x":17,"y":16}
   },
-  "currentAnimation": "stand+shoot",
   "animations": {
     "stand": ["0,0"],
     "stand+shoot": ["0,1"],

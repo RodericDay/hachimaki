@@ -1,22 +1,18 @@
 <meta charset="utf-8"/>
-<h1>Hachimaki</h1>
+<h1>Game</h1>
+<a href="./index.html">test</a>
+<a href="./editor.html">editor</a>
 
-<p>Pure HTML5/JavaScript engine/game. Under construction. See <a href="https://roderic.ca/notes/tags/game/">development diary</a>.</p>
-
-<p>
-<a href="editors/spritelab.html">spritelab</a>
-</p>
-
-<p>
-<a href="?demo1">1</a>
-<a href="?demo2">2</a>
-<a href="?demo3">3</a>
-<a href="?demo4">4</a>
-</p>
-
-<script src="game.js"></script>
+<script src="src/game.js"></script>
+<script src="models/platformer.js"></script>
 <script>
-var script = document.createElement("script");
-script.src = (window.location.toString().split('?')[1]||"demo4")+".js";
-document.body.appendChild(script);
+map = `
+  ####
+
+
+ #    #
+ #    #
+ #    #
+ ######`
 </script>
+<script src="test.js"></script>

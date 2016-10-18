@@ -46,13 +46,15 @@ class Scene {
 
 class Box {
 
-    constructor(x, y, w, h) {
+    constructor(x,y,w,h) {
+        this.x = x||0; this.y = y||0;
+        this.w = w||0; this.h = h||0;
+        this.vx = 0; this.vy = 0;
+    }
+
+    setPosition(x, y) {
         this.x = x;
         this.y = y;
-        this.w = w;
-        this.h = h;
-        this.vx = 0;
-        this.vy = 0;
     }
 
     setSpeed(vx, vy) {
@@ -60,10 +62,6 @@ class Box {
         this.vy = vy;
     }
 
-    setPosition(x, y) {
-        this.x = x;
-        this.y = y;
-    }
 
     move(dt) {
         this.x += this.vx*dt;
@@ -163,78 +161,17 @@ function sweptAABB(b2) {
     return collision;
 }
 
-class Platformer extends Box {
-
-    constructor(x, y, w, h) {
-        super(x, y, w, h);
-        this.pressed = new Set();
-        window.onkeyup = e => this.pressed.delete(e.keyCode);
-        window.onkeydown = e => this.pressed.add(e.keyCode);
-        // constants
-        this.speed = 1;
-        this.jumpMax = 5;
-        // booleans
-        this.midAir = true;
-        this.faceLeft = false;
-        this.canJump = false;
-    }
-
-    resolve(entities) {
-        var dt = 1;
-        var vx = 0;
-        var vy = this.vy-this.speed*dt;
-        if (this.pressed.has(37)) { vx -= this.speed*dt; this.faceLeft = true; }
-        if (this.pressed.has(39)) { vx += this.speed*dt; this.faceLeft = false; }
-        if (this.pressed.has(38)) {
-            if (this.canJump&&this.midAir===false) { vy = this.jumpMax; }
-            else if (this.vy > 0) { vy += this.speed*dt*0.75; }
-        }
-        // terminal speed
-        vy = Math.sign(vy) * Math.min(Math.abs(vy), this.jumpMax)
-        this.setSpeed(vx, vy);
-
-        this.midAir = true;
-        var collision = this.nextCollision(entities);
-        if (collision && collision.target) {
-            // if hit the ground
-            if (collision.normal.y === -1 && this.vy < 0) {
-                this.canJump = !this.pressed.has(38);
-                this.midAir = false;
-                this.vy = 0;
-            }
-            this.move(collision.time);
-            this.slide(collision.normal);
-            // hit another wall after sliding
-            var anotherCollision = this.nextCollision(entities);
-            this.move(Math.min(1-collision.time, anotherCollision.time));
-        } else {
-            this.canJump = false;
-            this.move(1);
-        }
-    }
-}
-
 class Sprite {
 
-    constructor(path) {
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", path);
-        xhr.responseType = 'json'
-        xhr.send();
-        xhr.onload = e => this.readJSON(xhr.response);
-    }
-
-    readJSON(data) {
-        this.spriteData = data;
+    constructor(imgSrc) {
         this.image = new Image();
-        this.image.src = this.spriteData.imgSrc;
+        this.image.src = imgSrc;
     }
 
     draw(entity, animation, frame) {
-        if (this.spriteData===undefined) { return }
-        var animation = this.spriteData.animations[animation]
+        var animation = entity.animations[animation]
         var frameId = animation[(frame||0) % animation.length];
-        var frame = this.spriteData.frames[frameId];
+        var frame = entity.frames[frameId];
 
         scene.context.save();
 
@@ -257,12 +194,30 @@ class Sprite {
     }
 }
 
-function makeTiles(map, symbol, size) {
-    return map
-        .split('\n')
-        .reverse()
-        .map((row, i)=>row.split('').map((cell,j)=>
-            cell===symbol?new Box(j*size, i*size, size, size):null))
-        .reduce((a,b) => a.concat(b))
-        .filter(a=>a);
+class Entity extends Box {
+
+    constructor(path) {
+        super();
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', path);
+        xhr.responseType = 'json';
+        xhr.send();
+        xhr.onload = e => this.load(xhr.response);
+    }
+
+    load(data) {
+        Object.keys(data).forEach(key=>this[key]=data[key]);
+        if(data.imgSrc) {
+            this.sprite = new Sprite(data.imgSrc);
+        }
+    }
+
+    draw(...args) {
+        try {
+            this.sprite.draw(this, ...args);
+        } catch(error) {
+            this.fill('lime');
+        }
+    }
+
 }

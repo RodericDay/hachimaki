@@ -1,0 +1,40 @@
+<meta charset="utf-8"/>
+<h1>Editor</h1>
+<a href="./index.html">test</a>
+<a href="./editor.html">editor</a>
+
+<script src="src/game.js"></script>
+<script src="models/platformer.js"></script>
+<script>
+map = `
+  ####
+
+
+ #    #
+ #    #
+ #    #
+ ######`
+</script>
+<script src="test.js"></script>
+<!-- <script src="src/editor.js"></script> -->
+
+<textarea id="textarea" rows="20" cols="40" style="white-space: pre;"></textarea>
+<div>
+<button onclick="loadData()">Load Data</button>
+<button onclick="dumpData()">Dump Data</button>
+</div>
+
+<script>
+function loadData() {
+    player.load(JSON.parse(textarea.value));
+}
+function dumpData() {
+    var data = {};
+    var excluded = ['pressed','sprite'];
+    Object.keys(player).filter(k=>!excluded.includes(k)).forEach(k=>data[k]=player[k]);
+    removeMiddleWhitespace = (match, ...ps) => ps[0]+ps[1].replace(/\s/g,'')+ps[2];
+    textarea.value = JSON.stringify(data, null, 2) // pretty-print
+        .replace(/("\d+,\d+":)([\s\S]*?)(\})/g, removeMiddleWhitespace)
+        .replace(/(\[)([\s\S]*?)(\])/g, removeMiddleWhitespace)
+}
+</script>
