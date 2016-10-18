@@ -1,10 +1,10 @@
-function render(t) {
+function render() {
     scene.clear('steelblue');
 
     scene.lock(player);
     tiles.forEach(tile=>tile.fill('lightgray'));
 
-    player.resolve(tiles);
+    if (!pause.checked) { player.resolve(tiles); }
     var mod = player.pressed.has(16)?"+shoot":"";
     if (player.midAir) { player.draw("jump"+mod); }
     else {
