@@ -19,12 +19,15 @@ class Platformer extends Player {
             this.vy -= this.jumpCharge;
             this.jumpCharge = 0;
         }
-        else if(this.jumpCharge > 0) {
+        if(this.jumpCharge) {
             this.jumpChargeLast = this.jumpCharge;
         }
 
         this.landed = this.landed || this.falling && Math.round(this.vy) === 0;
         this.falling = this.vy > 0;
+        if(this.falling) {
+            this.jumpChargeLast = 0;
+        }
     }
 
     jump(rate) {

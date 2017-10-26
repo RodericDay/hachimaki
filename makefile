@@ -2,7 +2,7 @@ SRC = $(wildcard src/*.ts)
 DEMO_SRC = $(wildcard demos/ts/*ts)
 
 main: build/hachimaki.js demos.txt
-	echo done
+	@echo done
 
 build/hachimaki.js: $(SRC)
 	tsc

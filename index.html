@@ -1,22 +1,30 @@
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
 
 <style>
+body {
+    max-width: 800px;
+    margin: 0 auto;
+}
 canvas {
     background-color: #eee;
+    margin: 0 auto;
+    display: block;
+}
+pre {
+    overflow-x: scroll;
 }
 </style>
 
+<main>
 <h1>Hachimaki</h1>
-
-<form><select id="select"></select></form>
-
 <canvas id="canvas"></canvas>
-
+<form><select id="select"></select></form>
 <script id="loader"></script>
 <pre id="shower">load a demo</pre>
+</main>
 
 <script src="build/hachimaki.js"></script>
-
 <script>
 async function load() {
     let response = await fetch('demos.txt');
@@ -32,6 +40,10 @@ async function load() {
         let response = await fetch(select.value.replace(/js/g, 'ts'));
         let text = await response.text();
         shower.innerHTML = text;
+    }
+    else {
+        select.value = select.options[select.options.length-1].value;
+        select.onchange();
     }
 }
 load();

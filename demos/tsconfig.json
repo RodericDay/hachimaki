@@ -1,0 +1,11 @@
+{
+    "include": [
+        "ts/*",
+        "../build/hachimaki.d.ts",
+    ],
+    "compilerOptions": {
+        "target": "es5",
+        "lib": ["es2016", "dom"],
+        "outDir": "js",
+    }
+}

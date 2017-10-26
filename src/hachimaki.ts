@@ -9,6 +9,7 @@ class Scene {
         this.canvas.height = height;
 
         this.context.imageSmoothingEnabled = false;
+        this.context.mozImageSmoothingEnabled = false;
         this.context.font = '8pt monospace';
     }
 
