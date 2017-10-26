@@ -1,0 +1,12 @@
+{
+    "include": [
+        "src",
+    ],
+    "compilerOptions": {
+        "target": "es5",
+        "lib": ["es2016", "dom"],
+        "outFile": "build/hachimaki.js",
+        "sourceMap": true,
+        "declaration": true,
+    }
+}

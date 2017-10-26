@@ -1,22 +1,38 @@
-<meta charset="utf-8"/>
+<meta charset="utf-8">
+
+<style>
+canvas {
+    background-color: #eee;
+}
+</style>
+
 <h1>Hachimaki</h1>
 
-<p>Pure HTML5/JavaScript engine/game. Under construction. See <a href="https://roderic.ca/notes/tags/game/">development diary</a>.</p>
+<form><select id="select"></select></form>
 
-<p>
-<a href="editors/spritelab.html">spritelab</a>
-</p>
+<canvas id="canvas"></canvas>
 
-<p>
-<a href="?demo1">1</a>
-<a href="?demo2">2</a>
-<a href="?demo3">3</a>
-<a href="?demo4">4</a>
-</p>
+<script id="loader"></script>
+<pre id="shower">load a demo</pre>
 
-<script src="game.js"></script>
+<script src="build/hachimaki.js"></script>
+
 <script>
-var script = document.createElement("script");
-script.src = (window.location.toString().split('?')[1]||"demo4")+".js";
-document.body.appendChild(script);
+async function load() {
+    let response = await fetch('demos.txt');
+    let text = await response.text();
+    text.trim().split('\n').forEach(o=>select.options.add(new Option(o, o)));
+    select.value = location.hash.slice(1);
+    select.onchange = (e) => {
+        location.hash = select.value;
+        location.reload();
+    }
+    if(select.value) {
+        loader.src = select.value;
+        let response = await fetch(select.value.replace(/js/g, 'ts'));
+        let text = await response.text();
+        shower.innerHTML = text;
+    }
+}
+load();
 </script>

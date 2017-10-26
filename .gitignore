@@ -1,0 +1,6 @@
+.DS_Store
+demos.txt
+apps/
+build/
+demos/js/
+deploy.sh
