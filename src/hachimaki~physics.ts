@@ -6,6 +6,8 @@ class Platformer extends Player {
     jumpCharge:number = 0; // required for hops vs. leaps
     jumpChargeMax:number;
     jumpChargeLast:number = 0;
+    isClimbing:boolean;
+    canClimb:boolean;
 
     constructor(scene, args, jumpChargeMax) {
         super(scene, args);
@@ -28,11 +30,25 @@ class Platformer extends Player {
         if(this.falling) {
             this.jumpChargeLast = 0;
         }
+
+        if(!this.canClimb) {
+            this.isClimbing = false;
+        }
     }
 
     jump(rate) {
-        if(this.landed) {
+        if(this.canClimb) {
+            this.isClimbing = true;
+            this.vy = -2;
+        }
+        else if(this.landed) {
             this.jumpCharge = Math.min(this.jumpCharge+rate, this.jumpChargeMax);
+        }
+    }
+
+    crouch() {
+        if(this.isClimbing) {
+            this.vy = +2;
         }
     }
 

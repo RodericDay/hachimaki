@@ -9,7 +9,6 @@ class Scene {
         this.canvas.height = height;
 
         this.context.imageSmoothingEnabled = false;
-        this.context.mozImageSmoothingEnabled = false;
         this.context.font = '8pt monospace';
     }
 
@@ -24,6 +23,11 @@ interface V{vx:number, vy:number};
 class Entity {
     x; y; w; h; vx; vy;
     scene: Scene;
+
+    get x1() {return this.x}
+    get x2() {return this.x+this.w}
+    get y1() {return this.y}
+    get y2() {return this.y+this.h}
 
     constructor(scene, {x=0, y=0, w=30, h=30, vx=0, vy=0}={}) {
         this.scene = scene;
@@ -65,6 +69,10 @@ class Entity {
         this.vy = dotprod * normal.x;
     }
 
+    overlap(entities) {
+        return entities.some(entity=>overlap(this, entity));
+    }
+
     nextCollision(entities) {
         const nearest = (c1, c2) => c1.time > c2.time ? c2 : c1;
         return entities.map(sweptAABB, this).reduce(nearest);
@@ -84,6 +92,10 @@ class Entity {
             this.scene.context.fillRect(x, y, w, h);
         }
     }
+}
+
+function overlap(A:Entity, B:Entity) {
+    return A.x1 < B.x2 && A.x2 > B.x1 && A.y1 < B.y2 && A.y2 > B.y1
 }
 
 function sweptAABB(b2) {
