@@ -2,11 +2,11 @@
 
 const canvas = document.querySelector("canvas");
 const scene = new Scene(canvas, 320, 240);
-const player = new Platformer(scene, {x:160, y:120}, 15);
+const player = new Platformer(scene, {x:160, y:120});
 player.listen({
     "ArrowLeft":  ()=>player.vx-=4,
     "ArrowRight": ()=>player.vx+=4,
-    "ArrowUp":    ()=>player.jump(2.5),
+    "ArrowUp":    ()=>player.jump(2.5, 15),
     "ArrowDown":  ()=>player.crouch(),
 });
 const walls = [
@@ -39,7 +39,7 @@ function render(t){
     }
     player.vx = 0;
     player.position = {
-        x: player.x>canvas.width?-player.w:player.x2<0?canvas.width:player.x,
+        x: player.x>canvas.width ?-player.w:player.x2<0?canvas.width :player.x,
         y: player.y>canvas.height?-player.h:player.y2<0?canvas.height:player.y,
     };
 
