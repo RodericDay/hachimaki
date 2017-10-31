@@ -3,6 +3,7 @@
 const canvas = document.querySelector("canvas");
 const scene = new Scene(canvas, 320, 240);
 const player = new Platformer(scene, {x:160, y:120});
+const playerSprite = new Sprite(player, "demos/assets/megaman", render);
 player.listen({
     "ArrowLeft":  ()=>player.vx-=4,
     "ArrowRight": ()=>player.vx+=4,
@@ -20,7 +21,6 @@ const walls = [
 const ladders = [
     new Entity(scene, {x:canvas.width*3/4, y:0, w:30, h: canvas.height}),
 ]
-
 
 function render(t){
     player.canClimb = player.overlap(ladders);
@@ -47,9 +47,8 @@ function render(t){
     ladders.forEach(ladder=>ladder.render({fill:"darkgray"}));
     walls.forEach(wall=>wall.render({fill:"gray"}));
     player.resolve();
-    player.render({fill: "red"});
+    playerSprite.render();
     requestAnimationFrame(render);
 }
-render(0);
 
 })()
