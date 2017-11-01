@@ -7,7 +7,7 @@ main: build/hachimaki.js demos.txt
 build/hachimaki.js: $(SRC)
 	tsc
 
-demos.txt: $(DEMO_SRC)
+demos.txt: $(DEMO_SRC) $(SRC)
 	rm demos/js/*
 	(cd demos && tsc)
 	find demos/js -type f > demos.txt
