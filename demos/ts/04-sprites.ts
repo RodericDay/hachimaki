@@ -11,12 +11,9 @@ player.listen({
     "ArrowDown":  ()=>player.crouch(),
 });
 const walls = [
-    new Entity(scene, {x:canvas.width*0.1, y:canvas.height*0.9, w:canvas.width*0.8, h:10}),
-    new Entity(scene, {x:canvas.width/2, y:canvas.height*3/4, w:10, h:canvas.height/4}),
-    new Entity(scene, {x:canvas.width/6, y:canvas.height/2, w:canvas.width/4, h:10}),
-    new Entity(scene, {x:canvas.width/2, y:canvas.height/4, w:canvas.width/4, h:10}),
-    new Entity(scene, {x:canvas.width*4/6, y:canvas.height*1/4, w:10, h:canvas.height/2-10}),
-    new Entity(scene, {x:canvas.width*4/6, y:canvas.height-30, w:10, h:canvas.height/2}),
+    new Entity(scene, {x:0, y:canvas.height*0.9, w:canvas.width*0.7, h:10}),
+    new Entity(scene, {x:canvas.width, y:canvas.height*0.9, w:-canvas.width*0.1, h:10}),
+    new Entity(scene, {x:canvas.width*0.3, y:canvas.height*0.3, w:canvas.width*0.3, h:10}),
 ];
 const ladders = [
     new Entity(scene, {x:canvas.width*3/4, y:0, w:30, h: canvas.height}),

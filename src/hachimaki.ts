@@ -31,10 +31,10 @@ class Entity {
 
     constructor(scene, {x=0, y=0, w=30, h=30, vx=0, vy=0}={}) {
         this.scene = scene;
-        this.w = w;
-        this.h = h;
-        this.x = x;
-        this.y = y;
+        this.w = Math.abs(w);
+        this.h = Math.abs(h);
+        this.x = w < 0 ? x - this.w : x;
+        this.y = h < 0 ? y - this.h : y;
         this.vx = 0;
         this.vy = 0;
     }
