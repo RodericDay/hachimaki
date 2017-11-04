@@ -15,6 +15,17 @@ class Scene {
     clear() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
+
+    lock(entity:Entity, world) {
+        this.context.save();
+        const dx = Math.max(Math.min(0, this.canvas.width/2-entity.x), -world.width+this.canvas.width);
+        const dy = Math.max(Math.min(0, this.canvas.height/2-entity.y), -world.height+this.canvas.height);
+        this.context.translate(dx, dy);
+    }
+
+    unlock() {
+        this.context.restore();
+    }
 }
 
 interface P{x:number, y:number};
